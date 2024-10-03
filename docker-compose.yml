@@ -1,0 +1,33 @@
+services:
+  laravel:
+    build:
+      context: ./api
+    volumes:
+      - ./api:/var/www
+    ports:
+      - "9000:9000"
+      - "8000:80"
+    depends_on:
+      - db
+
+  react:
+    build:
+      context: ./ui
+    volumes:
+      - ./ui:/usr/src/app
+    ports:
+      - "3000:3000"
+  db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: dic_db
+      MYSQL_USER: dic_user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - ./data:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
