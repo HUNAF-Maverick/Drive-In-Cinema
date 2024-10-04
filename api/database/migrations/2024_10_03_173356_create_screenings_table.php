@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->dateTime('date');
             $table->integer('available_seats');
-            $table->unsignedInteger('film_id');
+            $table->unsignedBigInteger('film_id');
             $table->timestamps();
 
             $table->foreign('film_id', 'screening_film_fk')

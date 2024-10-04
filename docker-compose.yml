@@ -1,22 +1,4 @@
 services:
-  laravel:
-    build:
-      context: ./api
-    volumes:
-      - ./api:/var/www
-    ports:
-      - "9000:9000"
-      - "8000:80"
-    depends_on:
-      - db
-
-  react:
-    build:
-      context: ./ui
-    volumes:
-      - ./ui:/usr/src/app
-    ports:
-      - "3000:3000"
   db:
     image: mysql
     environment:
@@ -26,6 +8,26 @@ services:
       MYSQL_ROOT_PASSWORD: admin
     volumes:
       - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  php:
+    build:
+      context: ./api
+    volumes:
+      - ./api:/var/www
+    ports:
+      - "9000:9000"
+      - "8000:80"
+    depends_on:
+      - db
+  react:
+    build:
+      context: ./ui
+    volumes:
+      - ./ui:/usr/src/app
+    ports:
+      - "3000:3000"
+    cpus: 2
   phpmyadmin:
     image: phpmyadmin
     restart: always
