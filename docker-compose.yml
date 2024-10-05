@@ -10,7 +10,7 @@ services:
       - ./data:/var/lib/mysql
     ports:
       - "3306:3306"
-  php:
+  laravel:
     build:
       context: ./api
     volumes:
