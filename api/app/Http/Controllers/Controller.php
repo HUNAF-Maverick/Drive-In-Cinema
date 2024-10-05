@@ -57,7 +57,7 @@ abstract class Controller
     {
         $model = $this->getModel($id);
         if (!$model instanceof Model) {
-            $result = clone $model;
+            $result = $model;
             return $this->modelNotFoundResponse($result);
         }
 
@@ -73,7 +73,7 @@ abstract class Controller
     {
         $model = $this->getModel($id);
         if (!$model instanceof Model) {
-            $result = clone $model;
+            $result = $model;
             return $this->modelNotFoundResponse($result);
         }
 

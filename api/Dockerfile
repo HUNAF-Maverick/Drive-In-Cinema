@@ -30,6 +30,6 @@ RUN touch /var/log/php/errors.log && chmod 777 /var/log/php/errors.log
 # Install dependencies
 RUN composer install --optimize-autoloader
 
-EXPOSE 9000
+EXPOSE 8000
 
 ENTRYPOINT ["/var/www/docker/run.sh"]

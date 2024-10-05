@@ -20,4 +20,10 @@ class Film extends Model
         'language',
         'cover_image'
     ];
+
+
+    public function screenings()
+    {
+        return $this->hasMany(Screening::class, 'film_id');
+    }
 }
