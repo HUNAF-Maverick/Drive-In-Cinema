@@ -25,9 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-zinc-800 text-primary-foreground antialiased`}
       >
+        <div className="w-full p-4 my-2 text-center"><p className="text-6xl text-white uppercasefont-semibold">Drive-In Cinema</p></div>
         {children}
       </body>
     </html>

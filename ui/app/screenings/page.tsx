@@ -14,20 +14,20 @@ import { columns } from "./columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-async function getFilmData() {
-  const res = await fetch("http://localhost:9000/api/film/all");
+async function getScreeningData() {
+  const res = await fetch("http://localhost:9000/api/screening/all");
   const allPostData = await res.json();
 
   return allPostData;
 }
 
 export default async function Home() {
-    const data = await getFilmData();
+    const data = await getScreeningData();
     return (
       <Card className="container mx-auto px-4 bg-zinc-400 shadow-md shadow-zinc-950">
         <CardHeader>
-          <CardTitle className="text-4xl">Filmek</CardTitle>
-          <CardDescription className="text-lg text-zinc-50">Az adatbázisban elérhető filmek listája</CardDescription>
+          <CardTitle className="text-4xl">Vetítések</CardTitle>
+          <CardDescription className="text-lg text-zinc-50">Elérhető vetítések listája</CardDescription>
         </CardHeader>
         <CardContent>
           <DataTable columns={columns} data={data} />
@@ -40,4 +40,3 @@ export default async function Home() {
       </Card>
     );
   }
-  
