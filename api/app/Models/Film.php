@@ -21,7 +21,9 @@ class Film extends Model
         'cover_image'
     ];
 
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function screenings()
     {
         return $this->hasMany(Screening::class, 'film_id');

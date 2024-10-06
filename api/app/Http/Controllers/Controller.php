@@ -17,6 +17,9 @@ abstract class Controller
         $this->modelClass = $model;
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function getAll()
     {
         $modelCollection = $this->modelClass::query()->get();
@@ -27,6 +30,10 @@ abstract class Controller
         );
     }
 
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
     public function get(int $id)
     {
         $result = $this->getModel($id);
@@ -37,6 +44,11 @@ abstract class Controller
         return $this->successfullResponse($result);
     }
 
+    /**
+     * @return JsonResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function new()
     {
         $modelData = request()->get('model_data');
@@ -53,6 +65,12 @@ abstract class Controller
         );
     }
 
+    /**
+     * @param int $id
+     * @return JsonResponse
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function set(int $id)
     {
         $model = $this->getModel($id);
@@ -69,6 +87,10 @@ abstract class Controller
         return $this->successfullResponse($model);
     }
 
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
     public function delete(int $id)
     {
         $model = $this->getModel($id);
@@ -91,6 +113,10 @@ abstract class Controller
         );
     }
 
+    /**
+     * @param int $id
+     * @return Model|ModelNotFoundException|null
+     */
     protected function getModel(int $id): Model | ModelNotFoundException | null
     {
         try {
@@ -103,6 +129,10 @@ abstract class Controller
         return $queryResult;
     }
 
+    /**
+     * @param $result
+     * @return JsonResponse
+     */
     protected function modelNotFoundResponse($result)
     {
         return JsonResponse::fromJsonString(
@@ -111,6 +141,10 @@ abstract class Controller
         );
     }
 
+    /**
+     * @param $data
+     * @return JsonResponse
+     */
     protected function successfullResponse($data)
     {
         return JsonResponse::fromJsonString(

@@ -12,6 +12,10 @@ class FilmController extends Controller
         parent::__construct(new Film());
     }
 
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getScreenings(int $id)
     {
         /**
