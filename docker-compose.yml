@@ -26,6 +26,8 @@ services:
       context: ./ui
     volumes:
       - ./ui:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
     ports:
       - "3000:3000"
     cpus: 2

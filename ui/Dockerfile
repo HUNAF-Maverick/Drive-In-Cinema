@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install React dependencies
 RUN npm install
 
+# Install Next depencencies
+RUN yarn install
+
 # Copy the rest of the application
 COPY . .
 
@@ -18,6 +21,3 @@ EXPOSE 3000
 
 # Build the React application
 CMD ["npm", "run", "dev"]
-
-# Start the React application
-# CMD ["npm", "start"]

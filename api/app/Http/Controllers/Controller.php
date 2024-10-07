@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ValidatableModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 use function json_encode;
 use function request;
 
 abstract class Controller
 {
+    /**
+     * @var Model | ValidatableModel
+     */
     protected Model $modelClass;
 
     public function __construct(Model $model)
@@ -38,7 +43,7 @@ abstract class Controller
     {
         $result = $this->getModel($id);
         if (!$result instanceof Model) {
-            return $this->modelNotFoundResponse($result);
+            return $this->errorResponse($result);
         }
 
         return $this->successfullResponse($result);
@@ -46,12 +51,15 @@ abstract class Controller
 
     /**
      * @return JsonResponse
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function new()
     {
-        $modelData = request()->get('model_data');
+        try {
+            $modelData = request()->validate($this->modelClass->getValidationRules());
+        }
+        catch (ValidationException $e) {
+            return $this->errorResponse($e);
+        }
 
         $model = $this->modelClass->newInstance($modelData);
 
@@ -76,10 +84,15 @@ abstract class Controller
         $model = $this->getModel($id);
         if (!$model instanceof Model) {
             $result = $model;
-            return $this->modelNotFoundResponse($result);
+            return $this->errorResponse($result);
         }
 
-        $modelData = request()->get('model_data');
+        try {
+            $modelData = request()->validate($this->modelClass->getValidationRules());
+        }
+        catch (ValidationException $e) {
+            return $this->errorResponse($e);
+        }
 
         $model->fill($modelData);
         $model->save();
@@ -96,7 +109,7 @@ abstract class Controller
         $model = $this->getModel($id);
         if (!$model instanceof Model) {
             $result = $model;
-            return $this->modelNotFoundResponse($result);
+            return $this->errorResponse($result);
         }
 
         $deleting = clone $model;
@@ -133,7 +146,7 @@ abstract class Controller
      * @param $result
      * @return JsonResponse
      */
-    protected function modelNotFoundResponse($result)
+    protected function errorResponse($result)
     {
         return JsonResponse::fromJsonString(
             $result->getMessage(),

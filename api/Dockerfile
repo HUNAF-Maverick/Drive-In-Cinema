@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql
 
 # Set workign dir
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 # Copy existing application dir contents
 COPY . .
@@ -28,8 +28,10 @@ RUN mkdir /var/log/php
 RUN touch /var/log/php/errors.log && chmod 777 /var/log/php/errors.log
 
 # Install dependencies
-RUN composer install --optimize-autoloader
+RUN composer install
 
-EXPOSE 8000
+RUN php artisan key:generate
 
-ENTRYPOINT ["/var/www/docker/run.sh"]
+EXPOSE 9000
+
+ENTRYPOINT ["/var/www/html/docker/run.sh"]

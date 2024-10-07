@@ -1,11 +1,9 @@
 #!/bin/sh
 
-cd /var/www
+cd /var/www/html
 
+sh -c "sleep 30 && php artisan migrate:fresh --seed && php artisan cache:clear"
 
-sh -c "sleep 30 && php artisan migrate:fresh --seed"
-
-php artisan cache:clear
 php artisan config:cache
 php artisan route:cache
 

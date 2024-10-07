@@ -25,7 +25,7 @@ class FilmController extends Controller
 
         if (!$film instanceof Model) {
             $result = $film;
-            return $this->modelNotFoundResponse($result);
+            return $this->errorResponse($result);
         }
 
         return $this->successfullResponse($film->screenings()->get());
